@@ -5,7 +5,7 @@ import Mirador from "./Miradorclass";
 
 function App() {
 	const [uuid, setUUID] = useState("");
-	const [iiifurl, setiiifurl] = useState("");
+	// const [iiifurl, setiiifurl] = useState("");
 	const [manifestlink, setManifestLink] = useState(
 		"https://wellcomelibrary.org/iiif/b18035723/manifest"
 	);
@@ -31,7 +31,7 @@ function App() {
 			`https://sv4ez2xiwe.execute-api.ca-central-1.amazonaws.com/dev/asset?app=dev&type=IO&uuid=${uuid}`
 		).then((res) => {
 			// setiiifurl(res.data);
-			setMiradorConfig(res.data["API-Response"]["IIIF-Manifest-URL"]);
+			setManifestLink(res.data["API-Response"]["IIIF-Manifest-URL"]);
 		});
 	};
 
