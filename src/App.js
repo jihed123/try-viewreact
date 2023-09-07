@@ -13,7 +13,7 @@ function App() {
 		id: "mirador", // Unique ID for the Mirador instance
 		windows: [
 			{
-				manifestId: manifestlink, // IIIF Manifest URL
+				manifestId: "https://wellcomelibrary.org/iiif/b18035723/manifest", // IIIF Manifest URL
 				canvasIndex: 0,
 				thumbnailNavigationPosition: "far-right",
 				view: "single",
@@ -53,19 +53,14 @@ function App() {
 						sidePanelWidth: 200,
 					},
 				],
-				workspace: {
-					type: "mosaic",
-					displayLayout: false,
-				},
 			};
-			console.log("setMiradorConfig");
 			console.log(newMiradorConfig);
 			setMiradorConfig(newMiradorConfig);
 			updateMiradorKey();
 		}
-		if (miradorKey > 0) {
-			MiradorViewer();
-		}
+		console.log(manifestlink);
+		console.log("useEffect");
+		MiradorViewer();
 	}, [manifestlink]);
 
 	return (
@@ -88,32 +83,15 @@ function App() {
 				}}>
 				set link
 			</button>
-			<div className="Miraclass">
-				<Mirador
-					key={miradorKey ? miradorKey : 0}
-					config={
-						miradorConfig
-							? miradorConfig
-							: {
-									id: "mirador", // Unique ID for the Mirador instance
-									windows: [
-										{
-											manifestId:
-												"https://wellcomelibrary.org/iiif/b18035723/manifest", // IIIF Manifest URL
-											canvasIndex: 0,
-											thumbnailNavigationPosition: "far-right",
-											view: "single",
-											sidePanelWidth: 200,
-										},
-									],
-									workspace: {
-										type: "mosaic",
-										displayLayout: false,
-									},
-							  }
-					}
-				/>
-			</div>
+			{manifestlink && miradorKey && miradorConfig && (
+				<div className="Miraclass">
+					<Mirador
+						key={miradorKey}
+						config={miradorConfig}
+						plugins={[]}
+					/>
+				</div>
+			)}
 		</div>
 	);
 }
