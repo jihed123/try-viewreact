@@ -25,6 +25,7 @@ function App() {
 			displayLayout: false,
 		},
 	});
+	const [miradorKey, setMiradorKey] = useState(0);
 
 	const fetchData = () => {
 		Axios.get(
@@ -34,8 +35,6 @@ function App() {
 			setManifestLink(res.data["API-Response"]["IIIF-Manifest-URL"]);
 		});
 	};
-
-	const [miradorKey, setMiradorKey] = useState(0);
 
 	// Function to update the key when the configuration changes
 	const updateMiradorKey = () => {
@@ -64,7 +63,9 @@ function App() {
 			setMiradorConfig(newMiradorConfig);
 			updateMiradorKey();
 		}
-		MiradorViewer();
+		if (miradorKey > 0) {
+			MiradorViewer();
+		}
 	}, [manifestlink]);
 
 	return (
@@ -89,9 +90,28 @@ function App() {
 			</button>
 			<div className="Miraclass">
 				<Mirador
-					key={miradorKey}
-					config={miradorConfig}
-					plugins={[]}
+					key={miradorKey ? miradorKey : 0}
+					config={
+						miradorConfig
+							? miradorConfig
+							: {
+									id: "mirador", // Unique ID for the Mirador instance
+									windows: [
+										{
+											manifestId:
+												"https://wellcomelibrary.org/iiif/b18035723/manifest", // IIIF Manifest URL
+											canvasIndex: 0,
+											thumbnailNavigationPosition: "far-right",
+											view: "single",
+											sidePanelWidth: 200,
+										},
+									],
+									workspace: {
+										type: "mosaic",
+										displayLayout: false,
+									},
+							  }
+					}
 				/>
 			</div>
 		</div>
